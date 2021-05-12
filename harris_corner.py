@@ -78,6 +78,12 @@ class HarrisCornerDetector(object):
         plt.plot(y_coords,x_coords,'*', color='red')
         if output_dir:
             plt.savefig(os.path.join(output_dir,self.imgname))
+        plt.title("Harris Corner Detector Output")
+        plt.show()
+        plt.figure()
+        plt.imshow(self.cornerness)
+        plt.title("Cornerness measure")
+        plt.show()
 
     def detect_corners(self,imgpath,output_dir):
         """Detect the corners of the input image. Just an order-wise calling of the above functions
@@ -101,7 +107,8 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir",type=str,default="",help="Path to output dir")
     args = parser.parse_args()
 
-    os.makedirs(args.output_dir,exist_ok=True)
+    if args.output_dir:
+        os.makedirs(args.output_dir,exist_ok=True)
     hcd = HarrisCornerDetector(args.k,args.threshold,args.sigma1,args.sigma2)
     for imgpth in args.imgpath:
         hcd.detect_corners(imgpth,args.output_dir)
